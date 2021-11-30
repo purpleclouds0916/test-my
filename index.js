@@ -1,34 +1,49 @@
-const express = require('express');
-const path = require('path');
-const generatePassword = require('password-generator');
-
+const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
-
-// Put all API endpoints under '/api'
-app.get('/api/passwords', (req, res) => {
-  const count = 5;
-
-  // Generate some passwords
-  const passwords = Array.from(Array(count).keys()).map(i =>
-    generatePassword(12, false)
-  )
-
-  // Return them as json
-  res.json(passwords);
-
-  console.log(`Sent ${count} passwords`);
-});
-
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});
-
 const port = process.env.PORT || 5000;
-app.listen(port);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-console.log(`Password generator listening on ${port}`);
+app.get("/api/hello", (req, res) => {
+  res.send({ express: "Hello From Express" });
+});
+app.post("/api/world", (req, res) => {
+  console.log(req.body);
+  //参考Web: https://moewe-net.com/nodejs/node-java
+  //必要なもの: node-java (npm install java)
+  //          XMLHttpRequest
+  const java = require("java");
+  const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+  //カレントディレクトリ
+  console.log("Current dir = " + process.cwd());
+
+  //Javaの実行ファイルをパスに追加(jarファイルはカレントディレクトリに配置する)
+  java.classpath.push("OptimThinningJNI-1.0.jar");
+
+  //使いたいクラスをオブジェクトにする
+  //cuOptimThinning.dllは.\node_modules\に配置. (失敗してもエラーメッセージでどこに配置すれば良いか示される)
+  const javaObject = java.import("thinningoptim.SA2021");
+
+  //以下はテストコード
+
+  //ファイル読み込み
+  // const xhr = new XMLHttpRequest();
+  // xhr.open("GET", "file://E:/Git/JavaScript/Java2Js/Nagano_Cedar.json", false);
+  // xhr.send();
+  // let input = xhr.responseText;
+  // xhr.abort();
+  // //読み込んだファイルの確認
+  // console.log(input);
+  console.log(JSON.stringify(req.body))
+
+  //Javaに送って実行
+  let result = javaObject.runSync(JSON.stringify(req.body));
+  console.log(result);
+
+  res.send(
+    `I received your POST request. This is what you sent me: ${result}`
+  );
+});
+
+app.listen(port, () => console.log(`Listening on port ${port}`));

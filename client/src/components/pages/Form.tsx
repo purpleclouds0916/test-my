@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-console */
@@ -5,7 +9,7 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable array-callback-return */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import schema from '../../validation/MainValidation';
@@ -174,7 +178,27 @@ const Form = () => {
     },
   });
 
-  const onSubmit = (data: FormValues) => {
+  const [response, setResponse] = useState<any>('');
+  // const [post, setPost] = useState<any>('');
+  const [responseToPost, setResponseToPost] = useState<any>('');
+
+  const callApi = async () => {
+    const Testresponse = await fetch('/api/hello');
+    const body = await Testresponse.json();
+    if (Testresponse.status !== 200) throw Error(body.message);
+
+    return body;
+  };
+
+  useEffect(() => {
+    callApi()
+      .then((res) => setResponse(res.express))
+      .catch((err) => console.log(err));
+  });
+
+  const onSubmit = async (data: FormValues) => {
+    // e.preventDefault();
+
     const DataSdmdH: number[] = [];
     data.SDMD.H.map((value) => {
       DataSdmdH.push(value.value);
@@ -207,7 +231,7 @@ const Form = () => {
         },
         Density: {
           Plant: [data.Density.Plant[0].value, data.Density.Plant[1].value],
-          Minimum: data.Density.Minimum,
+          MinimumAtClearcut: data.Density.Minimum,
         },
         RegenerationCost: [
           data.RegenerationCost[0].value,
@@ -224,6 +248,7 @@ const Form = () => {
           data.HarvestingAges[2].value,
         ],
         MaxNumOfHarvest: data.MaxNumOfHarvest,
+        NumSearch: [3, 10000],
         Thinning: {
           YieldRate: data.Thinning.YieldRate,
           Cost: data.Thinning.Cost,
@@ -290,16 +315,38 @@ const Form = () => {
             data.Clearcut.Price[10].value,
           ],
         },
+        SA: {
+          Comment: 'Type L 1000 yen/ha degradation for SEV',
+          NumRepeat: 40,
+          NumTempLevel: 100,
+          MetaSearchPercentile: 0.75,
+          NumTotalLoopN: [1, 8],
+          NumTotalLoopPow: [3.55, 6.75],
+          StartTemp: [0, -0.6, 0.6, 5],
+          DiffTemp: [0, -3.8, 1.4, 5],
+          DistScale: [0, -1.2, 0.6, 5],
+        },
       },
     };
     console.log(JSON.stringify(Json));
     // console.log(JSON.stringify(data));
+
+    const Test1response: any = await fetch('/api/world', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(Json),
+    });
+    const body = await Test1response.text();
+    setResponseToPost(body);
   };
 
   return (
     <div>
       <Headers description="経営に関する数値を入力するだけで、最適な経営方法を提案します" />
-
+      <p>{response}</p>
+      <p>{JSON.stringify(responseToPost)}</p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DensityManagement
           register={register}

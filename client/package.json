@@ -91,9 +91,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-
-  },
+  "devDependencies": {},
   "simple-git-hooks": {},
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [

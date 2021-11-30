@@ -12,7 +12,7 @@ const schema = yup
     Density: yup.object({
       Minimum: yup
         .number()
-        .positive('プラスの値を入れてください')
+       
 
         .required('必須項目です')
         .typeError('数字を入力してください'),
@@ -22,7 +22,7 @@ const schema = yup
             .number()
             .typeError('Amount must be a number')
             .required('Please provide plan cost.')
-            .positive('プラスの値を入れてください'),
+           ,
         }),
       ),
     }),
@@ -32,7 +32,7 @@ const schema = yup
           .number()
           .typeError('Amount must be a number')
           .required('Please provide plan cost.')
-          .positive('プラスの値を入れてください'),
+         ,
       }),
     ),
     ThinningPercent: yup.array().of(
@@ -41,12 +41,12 @@ const schema = yup
           .number()
           .typeError('Amount must be a number')
           .required('Please provide plan cost.')
-          .positive('プラスの値を入れてください'),
+         ,
       }),
     ),
     AnnualInterestPercent: yup
       .number()
-      .positive('プラスの値を入れてください')
+     
       .required('必須項目です')
       .typeError('数字を入力してください'),
     HarvestingAges: yup.array().of(
@@ -55,42 +55,42 @@ const schema = yup
           .number()
           .typeError('Amount must be a number')
           .required('Please provide plan cost.')
-          .positive('プラスの値を入れてください'),
+         ,
       }),
     ),
     MaxNumOfHarvest: yup
       .number()
-      .positive('プラスの値を入れてください')
+     
       .required('必須項目です')
       .typeError('数字を入力してください'),
     Thinning: yup.object({
       YieldRate: yup
         .number()
-        .positive('プラスの値を入れてください')
+       
 
         .required('必須項目です')
         .typeError('数字を入力してください'),
       Cost: yup
         .number()
-        .positive('プラスの値を入れてください')
+       
 
         .required('必須項目です')
         .typeError('数字を入力してください'),
       StumpHeight: yup
         .number()
-        .positive('プラスの値を入れてください')
+       
 
         .required('必須項目です')
         .typeError('数字を入力してください'),
       LogLength: yup
         .number()
-        .positive('プラスの値を入れてください')
+       
 
         .required('必須項目です')
         .typeError('数字を入力してください'),
       LoggingPitch: yup
         .number()
-        .positive('プラスの値を入れてください')
+       
 
         .required('必須項目です')
         .typeError('数字を入力してください'),
@@ -136,7 +136,7 @@ const schema = yup
             )
             .typeError('Amount must be a number')
             .required('Please provide plan cost.')
-            .positive('プラスの値を入れてください'),
+           ,
         }),
       ),
       Price: yup.array().of(
@@ -145,38 +145,38 @@ const schema = yup
             .number()
             .typeError('Amount must be a number')
             .required('Please provide plan cost.')
-            .positive('プラスの値を入れてください'),
+           ,
         }),
       ),
     }),
     Clearcut: yup.object({
       YieldRate: yup
         .number()
-        .positive('プラスの値を入れてください')
+       
 
         .required('必須項目です')
         .typeError('数字を入力してください'),
       Cost: yup
         .number()
-        .positive('プラスの値を入れてください')
+       
 
         .required('必須項目です')
         .typeError('数字を入力してください'),
       StumpHeight: yup
         .number()
-        .positive('プラスの値を入れてください')
+       
 
         .required('必須項目です')
         .typeError('数字を入力してください'),
       LogLength: yup
         .number()
-        .positive('プラスの値を入れてください')
+       
 
         .required('必須項目です')
         .typeError('数字を入力してください'),
       LoggingPitch: yup
         .number()
-        .positive('プラスの値を入れてください')
+       
 
         .required('必須項目です')
         .typeError('数字を入力してください'),
@@ -222,7 +222,7 @@ const schema = yup
                 return true;
               },
             )
-            .positive('プラスの値を入れてください'),
+           ,
         }),
       ),
       Price: yup.array().of(
@@ -231,7 +231,7 @@ const schema = yup
             .number()
             .typeError('Amount must be a number')
             .required('Please provide plan cost.')
-            .positive('プラスの値を入れてください'),
+           ,
         }),
       ),
     }),
